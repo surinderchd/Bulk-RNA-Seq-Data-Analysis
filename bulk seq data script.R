@@ -10,7 +10,7 @@ library(ggrepel)
 getwd()
 #load count data
 
-count_data <- read.csv('CoundatajackyWD.csv', header= TRUE,  sep = ",",row.names = 1)
+count_data <- read.csv('', header= TRUE,  sep = ",",row.names = 1)
 head(count_data)
 class(count_data)
 
@@ -62,7 +62,7 @@ count_data <- as.matrix(count_data)
 
 # coldata dataframe
 
-#coldata <- data.frame("Condition"= as.factor(c(rep("NegativeControl", 3), rep("SolventControl"), 3), rep("PhytoSterol", 3))), row.names= colnames(count_data)
+
 
 #pre filtering data
 #while pre filtering is not required step, but additionally benifical for two reasons: by removing reads with very few reads, we reduce the memory of ds dataobject to speed up the transformation and testing function deseq2 additionally since feature without any data for difefrnatial expression are not plotted it can be improve visualization
@@ -79,7 +79,7 @@ View(count_data)
 dds <- DESeqDataSetFromMatrix(countData = count_data, colData = coldata, design = ~Group)
 
 dds
-dds$Group <- relevel(dds$Group, ref = "Without_Platelets")
+#dds$Group <- relevel(dds$Group, ref = "")
 
 dds <- DESeq(dds)
 
@@ -90,10 +90,10 @@ head(normalized_counts)
 write.csv(normalized_counts, "normalized_count 22.csv")
 head(count_data)
 res <- results((dds), alpha = 0.05)
-res <- results(dds, contrast = c("Group", "With_Platelets", "Without_Platelets"), alpha = 0.05)
+res <- results(dds, contrast = c("Group", "Compare Grp", "Ref Grp"), alpha = 0.05)
 
 
-write.csv(res3, "LPS vs Control_DEGs 22.csv")
+write.csv(res3, "")
 
 summary(res)
 
@@ -143,19 +143,18 @@ EnhancedVolcano(res,
                 lab= rownames(res),
                 x= "log2FoldChange",
                 y= "padj",
-                title = "+Platelets_vs_-Platelets",
+                title = "",
                 pCutoff = 0.05, 
                 FCcutoff = 0.5,
                 pointSize = 2,
                 labSize = 4,
-                selectLab = c("STS","CGB","PlGF","FLT-1","TNF","IL-1B","CCL5"),)
+                selectLab = c(),)
 EnhancedVolcano(res,
                 lab = rownames(res),
                 x = 'log2FoldChange',
                 y = 'pvalue',
-                selectLab = c("STS","CGB1","CGB2","CGB3","CGB5","CGB7",
-                               "CGB8","PIGF","FLT1","TNF","IL1B","CCL5"),
-                title = "+Platelets_vs_-Platelets",
+                selectLab = c(),
+                title = "",
                 pCutoff = 0.05,
                 FCcutoff = 0.5,
                 pointSize = 2.0,
@@ -179,9 +178,8 @@ EnhancedVolcano(res,
                 FCcutoff = 0.5,
                 pointSize = 1.5,
                 labSize = 3,
-                selectLab = c("STS","CGB1","CGB2","CGB3","CGB5","CGB7",
-                              "CGB8","PIGF","FLT1","TNF","IL1B","CCL5"),
-                title = '+Platelets_vs_-Platelets',
+                selectLab = c(),
+                title = '',
                 subtitle = "DEGs",
                 #caption = 'FC cutoff, 1.333; p-value cutoff, 10e-4',
                 legendPosition = "right",
@@ -221,11 +219,7 @@ pheatmap(sampleDistMatrix,
          clustering_distance_rows = sampleDistMatrix,
          clustering_distance_cols = sampleDistMatrix, color = colors)
 #selected genes
-sel_genes <- c("Hsd3b9","Ugt2b38","Ugt2b37","Cyp2d10","Cyp7b1","Hsd3b2","Akr1d1","Ugt1a1","Cyp2c68","Hsd17b12","Cyp2d22",
-               "Cyp2d26","Srd5a1","Srd5a2","Abca1","Apoa1","Apoc3","Apoe","Cideb","Irpap1","Angptl3","Angptl8",
-               "Acot2","Acot3","Acot1","Ppt2","Hacd2","Cyp2j11","Cbr3","Cbr1","Cyp2j5","Cyp4a10","Cyp4a14","Ggt1",
-               "Cyp2j13","Cyp2c68","Ptgr2","Ticam1","Abca1","Apoa1","Cycs","Ddit3","Il18","Myd88","Nfe2l2","Plcb2",
-               "Rxrg","Ccl2","Sod2","Tnfsf10","Xbp1","Map2k6","Cyp51","Nsdhl","Sc5d","Tm7sf2")
+sel_genes <- c()
 
 
 #heatmap of log transformed normalized counts
@@ -265,9 +259,9 @@ pheatmap(z_score_subset, cluster_rows = TRUE, show_rownames = TRUE,show_colnames
 z_score_subset <- z_score_all[rownames(z_score_all) %in% sel_genes,]
 
 
-plotCounts(dds, "Ddit3", intgroup = "condition")
+plotCounts(dds, "", intgroup = "condition")
 #load sample data
-sample_info <- read.csv("designdabidm.csv", header = TRUE, row.names = 1)
+sample_info <- read.csv("", header = TRUE, row.names = 1)
 colnames(sample_info)
 head(sample_info)
 res
@@ -281,7 +275,7 @@ resOrdered <- resSig[order(resSig$log2FoldChange),]
 
 top_genes <- resOrdered[order(resOrdered$log2FoldChange, decreasing = TRUE), ][1:50,]
 
-res <- readRDS("Desktop/Jacky/jackydatasetddsobject.rds")
+res <- readRDS("")
 library(EnhancedVolcano)
 EnhancedVolcano(res,
                 lab = rownames(res),
